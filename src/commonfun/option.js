@@ -14,7 +14,7 @@ export function setOption4(globalDailyHistory) {
     xAxis = xAxis.reverse()
 
     var option = {
-        // height:1000,
+
         tooltip: {
             trigger: "axis"
         },
@@ -74,91 +74,91 @@ export function setOption4(globalDailyHistory) {
             }
         }],
         series: [{
-            name: "死亡人数",
-            type: "line",
-            smooth: true,
-            // 单独修改当前线条的样式
-            lineStyle: {
-                color: "#0184d5",
-                width: "2"
-            },
-            // 填充颜色设置
-            areaStyle: {
-                color: new echarts.graphic.LinearGradient(
-                    0,
-                    0,
-                    0,
-                    1, [{
-                        offset: 0,
-                        color: "rgba(1, 132, 213, 0.4)" // 渐变色的起始颜色
-                    },
-                    {
-                        offset: 0.8,
-                        color: "rgba(1, 132, 213, 0.1)" // 渐变线的结束颜色
-                    }
-                ],
-                    false
-                ),
-                shadowColor: "rgba(0, 0, 0, 0.1)"
-            },
-            // 设置拐点
-            symbol: "circle",
-            // 拐点大小
-            symbolSize: 8,
-            // 开始不显示拐点， 鼠标经过显示
-            showSymbol: false,
-            // 设置拐点颜色以及边框
-            itemStyle: {
-                color: "#0184d5",
-                borderColor: "rgba(221, 220, 107, .1)",
-                borderWidth: 12
-            },
-            data: series1
-        },
-        {
-            name: "治愈人数",
-            type: "line",
-            smooth: true,
-            lineStyle: {
-                normal: {
-                    color: "#00d887",
-                    width: 2
-                }
-            },
-            areaStyle: {
-                normal: {
+                name: "死亡人数",
+                type: "line",
+                smooth: true,
+                // 单独修改当前线条的样式
+                lineStyle: {
+                    color: "#0184d5",
+                    width: "2"
+                },
+                // 填充颜色设置
+                areaStyle: {
                     color: new echarts.graphic.LinearGradient(
                         0,
                         0,
                         0,
                         1, [{
-                            offset: 0,
-                            color: "rgba(0, 216, 135, 0.4)"
-                        },
-                        {
-                            offset: 0.8,
-                            color: "rgba(0, 216, 135, 0.1)"
-                        }
-                    ],
+                                offset: 0,
+                                color: "rgba(1, 132, 213, 0.4)" // 渐变色的起始颜色
+                            },
+                            {
+                                offset: 0.8,
+                                color: "rgba(1, 132, 213, 0.1)" // 渐变线的结束颜色
+                            }
+                        ],
                         false
                     ),
                     shadowColor: "rgba(0, 0, 0, 0.1)"
-                }
+                },
+                // 设置拐点
+                symbol: "circle",
+                // 拐点大小
+                symbolSize: 8,
+                // 开始不显示拐点， 鼠标经过显示
+                showSymbol: false,
+                // 设置拐点颜色以及边框
+                itemStyle: {
+                    color: "#0184d5",
+                    borderColor: "rgba(221, 220, 107, .1)",
+                    borderWidth: 12
+                },
+                data: series1
             },
-            // 设置拐点 小圆点
-            symbol: "circle",
-            // 拐点大小
-            symbolSize: 5,
-            // 设置拐点颜色以及边框
-            itemStyle: {
-                color: "#00d887",
-                borderColor: "rgba(221, 220, 107, .1)",
-                borderWidth: 12
-            },
-            // 开始不显示拐点， 鼠标经过显示
-            showSymbol: true,
-            data: series2
-        }
+            {
+                name: "治愈人数",
+                type: "line",
+                smooth: true,
+                lineStyle: {
+                    normal: {
+                        color: "#00d887",
+                        width: 2
+                    }
+                },
+                areaStyle: {
+                    normal: {
+                        color: new echarts.graphic.LinearGradient(
+                            0,
+                            0,
+                            0,
+                            1, [{
+                                    offset: 0,
+                                    color: "rgba(0, 216, 135, 0.4)"
+                                },
+                                {
+                                    offset: 0.8,
+                                    color: "rgba(0, 216, 135, 0.1)"
+                                }
+                            ],
+                            false
+                        ),
+                        shadowColor: "rgba(0, 0, 0, 0.1)"
+                    }
+                },
+                // 设置拐点 小圆点
+                symbol: "circle",
+                // 拐点大小
+                symbolSize: 5,
+                // 设置拐点颜色以及边框
+                itemStyle: {
+                    color: "#00d887",
+                    borderColor: "rgba(221, 220, 107, .1)",
+                    borderWidth: 12
+                },
+                // 开始不显示拐点， 鼠标经过显示
+                showSymbol: true,
+                data: series2
+            }
         ]
     };
     return option;
@@ -167,9 +167,9 @@ export function setOption4(globalDailyHistory) {
 var echarts = require('echarts');
 // import { echarts } from 'echarts'
 export function addChart(dom, option) {
-    let myChart = echarts.init(dom,);
+    let myChart = echarts.init(dom, );
     myChart.setOption(option);
-    window.addEventListener("resize", function () {
+    window.addEventListener("resize", function() {
         myChart.resize();
     });
     return myChart;

@@ -1,11 +1,12 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import { globalDailyHistory } from '@/commonfun/data.js'
 const state = {
-    data: []
+    data: globalDailyHistory.slice(0, 15)
 }
 const getters = {
 
-    getChangedData(state) {  //方法名随意,主要是用来承载变化的getChangedDate的值
+    getChangedData(state) { //方法名随意,主要是用来承载变化的getChangedDate的值
         return state.data
     }
 }
@@ -16,8 +17,8 @@ const mutations = {
     }
 };
 const actions = {
-     //自定义触发mutations里函数的方法，context与store 实例具有相同方法和属性      
-    setNewData(context, data) {   
+    //自定义触发mutations里函数的方法，context与store 实例具有相同方法和属性      
+    setNewData(context, data) {
         context.commit('newData', data)
     }
 };

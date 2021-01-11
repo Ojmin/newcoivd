@@ -1,8 +1,8 @@
 <template>
-  <div class="mgraph">
-    <VmPanel>
+  <div class="row">
+    <VmPanel class="col-md-12">
       <div slot="panelcontent">
-        <h2 style="color:black">世界每周新增治愈和死亡人数</h2>
+        <h2 style="color:black " class="col-md-12">世界每周新增治愈和死亡人数</h2>
         <div class="chart deadheal"></div>
       </div>
     </VmPanel>
@@ -34,10 +34,5 @@ export default {
 };
 </script>
 <style scoped>
-.mygraph{ 
-  width: 100%;
-float:right;
-text-align: center;
-display: flex;
-}
+
 </style>

@@ -1,21 +1,26 @@
 <template>
-  <div id="app">
-    <div id="nav" >
-      <vmHearder></vmHearder>
+  <div id="app" class="container">
+    <div id="nav">
+      <vmHearder class="col-md-12 col-sm-12 col-lg-12"></vmHearder>
+      <div class="row">
+        <VmTable
+          class="col-md-6 col-sm-12 col-lg-6"
+         
+        ></VmTable>
 
-      <VmTable :tableOption4="tableOption4" class="table" :key="index"></VmTable>
-
-      <VmGraph :option4="option4" class="graph" ></VmGraph>
-
+        <VmGraph
+          :option4="option4"
+          class="col-md-6 col-sm-12 col-lg-6"
+        ></VmGraph>
+        
+      </div>
     </div>
-                <VmButton class="mpage"></VmButton>
-
   </div>
 </template>
 <script>
 import VmGraph from "@/components/VmGraph.vue";
 import VmTable from "@/components/VmTable.vue";
-import VmButton from "@/components/VmButton.vue";
+// import VmButton from "@/components/VmButton.vue";
 import vmHearder from "@/components/Vmhearder.vue";
 import { getGlobalDailyHistory } from "@/commonfun/option.js";
 import { setOption4 } from "@/commonfun/option.js";
@@ -24,7 +29,6 @@ export default {
   name: "app",
   data() {
     return {
-      index :0,
       option4: {},
       tableOption4: {},
     };
@@ -36,16 +40,19 @@ export default {
   },
   watch: {
     watchData(newData) {
-      this.index +=1
-      this.tableOption4 = newData
-      var obj=JSON.parse(JSON.stringify(newData));
+      this.tableOption4 = newData;
+      var obj = JSON.parse(JSON.stringify(newData));
       this.option4 = setOption4(obj);
+            // this.index += 1;
+
+      return
     },
   },
-  components: { VmGraph, VmTable, VmButton, vmHearder },
+  components: { VmGraph, VmTable, vmHearder },
   mounted() {
     // console.log(getGlobalDailyHistory())
-    this.tableOption4 = getGlobalDailyHistory().slice(0, 20);
+    // this.tableOption4 = getGlobalDailyHistory().slice(0, 15);
+     this.tableOption4 = getGlobalDailyHistory()
     this.option4 = setOption4(this.tableOption4);
   },
 };
@@ -54,53 +61,8 @@ export default {
 .table {
   background-color: rgba(255, 255, 255, 0);
 }
-.graph {
-  text-align: center; /*让div内部文字居中*/
-  background-color: rgba(255, 255, 255, 0);
-  border-radius: 20px;
-  float:right;
-  width: 50%;
-  height: 1000px;
-  margin: auto;
-  margin-top: 30px;
-  // position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-}
-.mpage {
-  bottom: 0;
-  background-color: rgba(255, 255, 255, 0);
-}
-// .right {
-//   flex: 2;
-//   padding: 10px 10px 0;
-//   display: flex;
-// }
+
 #app {
-  background: url(assets/bg.png) top center;
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  height: 1350px;
-  margin:0px;padding:0px;
-  
-}
-
-#nav {
-  margin:0px;
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
+  background: url(assets/bg.jpg) top center;
 }
 </style>

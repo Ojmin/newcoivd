@@ -1,132 +1,122 @@
 <template>
-  <div class="htable">
-    <table
-      id="mtable"
-      table
-      border="1"
-      cellspacing="0"
-      cellpadding="10"
-      class=""
-    >
-      <thead>
-        <tr>
-          <th @click="dataresored">序号 ▲▼</th>
-          <th>年</th>
-          <th>月日</th>
-          <th>确诊</th>
-          <th>死亡</th>
-          <th>治愈</th>
-          <th>新增确诊</th>
-          <th>死亡率</th>
-          <th>治愈率</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(history, index) in myglobalHistory" :key="index">
-          <td>{{ index + 1 }}</td>
-          <td>{{ history.y }}</td>
-          <td>{{ history.date }}</td>
-          <td>{{ history.all.confirm }}</td>
-          <td>{{ history.all.dead }}</td>
-          <td>{{ history.all.heal }}</td>
-          <td>{{ history.all.newAddConfirm }}</td>
-          <td>{{ history.all.deadRate }}</td>
-          <td>{{ history.all.healRate }}</td>
-        </tr>
-      </tbody>
-    </table>
+  <div class="overflow-auto">
+    <b-input-group prepend="日期" class="mt-0">
+      <b-form-input v-model="inputDate" ></b-form-input>
+      <b-input-group-append>
+        <!-- <b-button variant="outline-success">Button</b-button> -->
+      </b-input-group-append>
+      <b-button @click="filterData" variant="info" class="col-md-2">搜索</b-button>
+    </b-input-group>
+    <b-table
+      striped
+      hover
+      id="my-table"
+      :items="items"
+      :per-page="perPage"
+      :current-page="currentPage"
+      small
+      :fields="fields"
+    ></b-table>
+    <div class="row">
+      <b-pagination
+        v-model="currentPage"
+        :total-rows="rows"
+        :per-page="perPage"
+        aria-controls="my-table"
+        class="col-md-6 m-auto navbar navbar-fixed-bottom"
+        @click.native="setGlobalData(currentPage)"
+        style="background: rgba(255, 255, 255, 0)"
+      ></b-pagination>
+    </div>
+    <!-- <p class="mt-3">Current Page: {{ currentPage }}</p> -->
   </div>
 </template>
 
+
 <script>
+// import  BScroll  from "better-scroll";
 import { globalDailyHistory } from "@/commonfun/data.js";
 export default {
   name: "vmTable",
   data() {
     return {
-      index: 0,
-      globalHistory: this.tableOption4,
+      fields: [
+        { key: "日期▲▼", sortable: true },
+        "年",
+        "确诊",
+        "死亡",
+        "治愈",
+        "新增确诊",
+        "死亡率",
+        "治愈率",
+      ],
+      perPage: 15,
+      currentPage: 1,
+      items: this.getItems(),
+      inputDate:''
     };
   },
-  props: { tableOption4: {} },
   computed: {
-    myglobalHistory() {
-      let newdata = this.tableOption4;
-      console.log(1111, newdata);
-      return this.index % 2 == 0 ? newdata : newdata.reverse();
-    },
-  },
-  // watch: {
-  //   tableOption4(newData) {
-  //     console.log(333,newData)
-  //     this.globalHistory = newData;
-  //     this.$forceFlush
-  //   },
-  // },
-  methods: {
-    dataresored() {
-      this.index += 1;
+    rows() {
+      return this.items.length;
     },
   },
   mounted() {
-    this.globalHistory = globalDailyHistory.slice(0,20);
+    // this.scroll = new BScroll(this.$refs.wrapper, {
+    //   mouseWheel: true,
+    //   click: true,
+    //   tap: true,
+    // });
+  },
+  methods: {
+    filterData(){
+       var arrayObj = new Array();
+      let List = globalDailyHistory;
+      for (let index in List) {
+        let o = new Object();
+        if(List[index].date!=this.inputDate){
+              continue
+        }
+        o["日期▲▼"] = List[index].date;
+        o["年"] = List[index].y;
+        o["确诊"] = List[index].all.confirm;
+        o["死亡"] = List[index].all.dead;
+        o["治愈"] = List[index].all.heal;
+        o["新增确诊"] = List[index].all.newAddConfirm;
+        o["死亡率"] = List[index].all.deadRate;
+        o["治愈率"] = List[index].all.healRate;
+        arrayObj.push(o);
+      }
+      this.items=arrayObj;
+      return
+    },
+    setGlobalData(currentPage) {
+      this.$store.dispatch(
+        "setNewData",
+        globalDailyHistory.slice((currentPage - 1) * 15, currentPage * 15)
+      );
+    },
+    getItems() {
+      var arrayObj = new Array();
+      let List = globalDailyHistory;
+      for (let index in List) {
+        let o = new Object();
+        o["日期▲▼"] = List[index].date;
+        o["年"] = List[index].y;
+        o["确诊"] = List[index].all.confirm;
+        o["死亡"] = List[index].all.dead;
+        o["治愈"] = List[index].all.heal;
+        o["新增确诊"] = List[index].all.newAddConfirm;
+        o["死亡率"] = List[index].all.deadRate;
+        o["治愈率"] = List[index].all.healRate;
+        arrayObj.push(o);
+      }
+      return arrayObj;
+    },
   },
 };
 </script>
-<style scoped>
-.htable {
-  display: block;
-  overflow-y: auto;
-  width: 50%;
-  float: left;
-}
-#myheader {
-  height: 100px;
-  position: relative;
-}
 
-#myheader h1 {
-  color: black;
-  font-size: 38px;
-  line-height: 80px;
-  text-align: center;
-}
-table {
-  table-layout: fixed;
-  display: table;
-  width: 100%;
-  height: 100%;
-  float: left;
-  background-color: rgba(255, 255, 255, 0);
-  margin: 30px auto;
-  border-collapse: collapse;
-  /*border-collapse:collapse合并内外边距
-                (去除表格单元格默认的2个像素内外边距*/
-}
-td {
-  height: 25px;
-  line-height: 25px;
-  text-align: center;
-  border: 1px solid black;
-  background-color: rgba(255, 255, 255, 0);
-}
-th {
-  background-color: rgba(255, 255, 255, 0);
-
-  font-weight: bold;
-}
-tr {
-  background-color: rgba(255, 255, 255, 0);
-}
-tr:hover {
-  background: #cc0;
-}
-td a {
-  color: #06f;
-  text-decoration: none;
-}
-td a:hover {
-  color: #06f;
-  text-decoration: underline;
-}
+<style rel="stylesheet/scss" lang="scss" scoped>
 </style>
+

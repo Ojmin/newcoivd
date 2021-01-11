@@ -18,7 +18,7 @@ export default {
 <style scoped>
 .vmpanel {
   position: relative;
-  height: 900px;
+  /* height: 900px; */
   border: 1px solid rgba(25, 186, 139, 0.17);
   /* background: url(~assets/image/line\(1\).png); */
   padding: 0 15px 40px;
@@ -87,7 +87,7 @@ export default {
 }
 
 .panelcontent .chart {
-  height: 850px;
+  height: 450px;
   /* background-color: pink; */
 }
 </style>

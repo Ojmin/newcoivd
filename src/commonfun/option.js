@@ -12,6 +12,7 @@ export function setOption4(globalDailyHistory) {
     series1 = series1.reverse();
     series2 = series2.reverse();
     xAxis = xAxis.reverse()
+ 
 
     var option = {
 

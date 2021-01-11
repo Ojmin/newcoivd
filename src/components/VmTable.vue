@@ -1,12 +1,5 @@
 <template>
   <div class="overflow-auto">
-    <b-input-group prepend="日期" class="mt-0">
-      <b-form-input v-model="inputDate" ></b-form-input>
-      <b-input-group-append>
-        <!-- <b-button variant="outline-success">Button</b-button> -->
-      </b-input-group-append>
-      <b-button @click="filterData" variant="info" class="col-md-2">搜索</b-button>
-    </b-input-group>
     <b-table
       striped
       hover
@@ -16,19 +9,8 @@
       :current-page="currentPage"
       small
       :fields="fields"
+      style="table-layout:fixed;"
     ></b-table>
-    <div class="row">
-      <b-pagination
-        v-model="currentPage"
-        :total-rows="rows"
-        :per-page="perPage"
-        aria-controls="my-table"
-        class="col-md-6 m-auto navbar navbar-fixed-bottom"
-        @click.native="setGlobalData(currentPage)"
-        style="background: rgba(255, 255, 255, 0)"
-      ></b-pagination>
-    </div>
-    <!-- <p class="mt-3">Current Page: {{ currentPage }}</p> -->
   </div>
 </template>
 
@@ -50,15 +32,32 @@ export default {
         "死亡率",
         "治愈率",
       ],
-      perPage: 15,
+      perPage: 20,
       currentPage: 1,
       items: this.getItems(),
-      inputDate:''
     };
   },
   computed: {
     rows() {
       return this.items.length;
+    },
+    watchCurrentPage() {
+      return this.$store.getters.getCurrentPage;
+    },
+    watchFilterDate() {
+      return this.$store.getters.getFilterDate;
+    },
+  },
+  watch: {
+    watchCurrentPage(newPage) {
+      console.log(1111, newPage);
+      this.currentPage = newPage;
+      return;
+    },
+    watchFilterDate(newDate) {
+      this.filterData(newDate);
+      console.log(this.items);
+      return;
     },
   },
   mounted() {
@@ -69,13 +68,16 @@ export default {
     // });
   },
   methods: {
-    filterData(){
-       var arrayObj = new Array();
+    filterData(filterDate) {
+      console.log(555, filterDate);
+      var arrayObj = new Array();
       let List = globalDailyHistory;
       for (let index in List) {
         let o = new Object();
-        if(List[index].date!=this.inputDate){
-              continue
+        console.log(22, List[index].date);
+        console.log(88, filterDate);
+        if (List[index].date != filterDate) {
+          continue;
         }
         o["日期▲▼"] = List[index].date;
         o["年"] = List[index].y;
@@ -87,8 +89,8 @@ export default {
         o["治愈率"] = List[index].all.healRate;
         arrayObj.push(o);
       }
-      this.items=arrayObj;
-      return
+      this.items = arrayObj;
+      return;
     },
     setGlobalData(currentPage) {
       this.$store.dispatch(

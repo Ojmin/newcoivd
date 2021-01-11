@@ -1,27 +1,26 @@
 <template>
-  <div id="app" class="container">
-    <div id="nav">
-      <vmHearder class="col-md-12 col-sm-12 col-lg-12"></vmHearder>
-      <div class="row">
-        <VmTable
-          class="col-md-6 col-sm-12 col-lg-6"
-         
-        ></VmTable>
+  <div id="app" class="container-fluid">
+    <div class="row">
+      <h1 class="col-md-3 pt-5 offset-md-5">全球历史疫情情况</h1>
+      <VmSearch class="col-md-3 pt-5 mt-30"></VmSearch>
+    </div>
+    <div class="row mt-5 pt-5 mb-5 pb-5" style="border-top: 1px solid #dddddd">
+      <VmTable class="col-md-4 offset-md-1" style="border: 1px solid #dddddd"></VmTable>
 
-        <VmGraph
-          :option4="option4"
-          class="col-md-6 col-sm-12 col-lg-6"
-        ></VmGraph>
-        
-      </div>
+      <VmGraph :option4="option4" class="col-md-4 offset-md-2"></VmGraph>
+    </div>
+    <div class="row" style="border-top: 1px solid #dddddd">
+      <VmPage class="col-md-4 m-auto"></VmPage>
     </div>
   </div>
 </template>
 <script>
 import VmGraph from "@/components/VmGraph.vue";
+import VmSearch from "@/components/VmSearch.vue";
 import VmTable from "@/components/VmTable.vue";
+import VmPage from "@/components/VmPage.vue";
 // import VmButton from "@/components/VmButton.vue";
-import vmHearder from "@/components/Vmhearder.vue";
+// import vmHearder from "@/components/Vmhearder.vue";
 import { getGlobalDailyHistory } from "@/commonfun/option.js";
 import { setOption4 } from "@/commonfun/option.js";
 
@@ -33,26 +32,26 @@ export default {
       tableOption4: {},
     };
   },
-  computed: {
-    watchData() {
-      return this.$store.getters.getChangedData;
-    },
-  },
-  watch: {
-    watchData(newData) {
-      this.tableOption4 = newData;
-      var obj = JSON.parse(JSON.stringify(newData));
-      this.option4 = setOption4(obj);
-            // this.index += 1;
+  // computed: {
+  //   watchData() {
+  //     return this.$store.getters.getChangedData;
+  //   },
+  // },
+  // watch: {
+  //   watchData(newData) {
+  //     this.tableOption4 = newData;
+  //     var obj = JSON.parse(JSON.stringify(newData));
+  //     this.option4 = setOption4(obj);
+  //     // this.index += 1;
 
-      return
-    },
-  },
-  components: { VmGraph, VmTable, vmHearder },
+  //     return;
+  //   },
+  // },
+  components: { VmGraph, VmTable, VmSearch, VmPage },
   mounted() {
     // console.log(getGlobalDailyHistory())
-    // this.tableOption4 = getGlobalDailyHistory().slice(0, 15);
-     this.tableOption4 = getGlobalDailyHistory()
+    this.tableOption4 = getGlobalDailyHistory().slice(0, 15);
+    // this.tableOption4 = getGlobalDailyHistory();
     this.option4 = setOption4(this.tableOption4);
   },
 };
@@ -63,6 +62,8 @@ export default {
 }
 
 #app {
-  background: url(assets/bg.jpg) top center;
+  background: url(assets/bg.png) no-repeat center center;
+  background-size: cover;
+  background-attachment: fixed;
 }
 </style>
